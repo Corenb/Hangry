@@ -3,6 +3,7 @@ module.exports = {
 	aliases: ['m', 'msg'],
 	description: 'Envoi un message dans un canal.',
 	guildOnly: true,
+	args: true,
 	permissions: 'MANAGE_MESSAGES',
 	usage: '<canal> <message>',
 	execute(message, args) {
@@ -10,21 +11,17 @@ module.exports = {
 			return message.reply('Veuillez mentionner le canal sur lequel envoyer le message et indiquer un message.');
 		}
 
-		const taggedUser = message.mentions.users.first();
-		if (!taggedUser) {
-			return message.reply('Veuillez mentionner l\'utilisateur à l\'aide de la fonction mention.');
+		const taggedChannel = message.mentions.channel.first();
+		if (!taggedChannel) {
+			return message.reply('Veuillez mentionner le canal à l\'aide de la fonction mention.');
 		}
 
 		const msg = args.slice(1).join(' ');
-		return taggedUser.send(msg, { split: true }).then(() => {
-			if (message.channel.type === 'dm') return;
-
-			message.reply(`J'ai envoyé le message en privé à **${taggedUser.tag}**!`);
+		return taggedChannel.send(msg, { split: true }).then(() => {
+			message.reply(`J'ai envoyé le message sur le canal **${taggedChannel.tag}**!`);
 		}).catch(error => {
-			console.error(`Could not send help DM to ${taggedUser.tag}.\n`, error);
-			message.reply(`Il semble que je ne peux envoyer à **${taggedUser.tag}** de messages privés!`);
+			console.error(`Could not send message on ${taggedChannel.tag}.\n`, error);
+			message.reply(`Il semble que je ne peux envoyer de message sur **${taggedChannel.tag}** !`);
 		});
-
-		return message.channel.send(`Le message a été envoyé à **${taggedUser.tag}**!`);
 	},
 };

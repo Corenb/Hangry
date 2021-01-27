@@ -3,6 +3,7 @@ module.exports = {
 	aliases: ['purge'],
 	description: 'Reloads a command',
 	guildOnly: true,
+	args: true,
 	permissions: 'MANAGE_MESSAGES',
 	usage: '<amount>',
 	execute(message, args) {

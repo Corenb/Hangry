@@ -3,6 +3,7 @@ module.exports = {
 	cooldown: 5,
 	aliases: ['polls', 'sondage'],
 	description: 'Génère un sondage à plusieurs choix.',
+	guildOnly: true,
 	args: true,
 	usage: '<question> "<choice1>" "<choice2>"',
 	execute(message, args) {

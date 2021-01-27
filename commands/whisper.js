@@ -3,6 +3,7 @@ module.exports = {
 	aliases: ['w', 'pm', 'mp'],
 	description: 'Whisper a user in private message.',
 	guildOnly: true,
+	args: true,
 	permissions: 'MANAGE_MESSAGES',
 	usage: '<user> <message>',
 	execute(message, args) {
@@ -21,7 +22,7 @@ module.exports = {
 
 			message.reply(`J'ai envoyé le message en privé à **${taggedUser.tag}**!`);
 		}).catch(error => {
-			console.error(`Could not send help DM to ${taggedUser.tag}.\n`, error);
+			console.error(`Could not send DM to ${taggedUser.tag}.\n`, error);
 			message.reply(`Il semble que je ne peux envoyer à **${taggedUser.tag}** de messages privés!`);
 		});
 
