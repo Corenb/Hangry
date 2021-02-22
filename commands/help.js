@@ -1,4 +1,4 @@
-const { prefix } = require('../config.json');
+const { prefix } = require('../ressources/config.json');
 
 module.exports = {
 	name: 'help',
@@ -18,10 +18,10 @@ module.exports = {
 			return message.author.send(data, { split: true }).then(() => {
 				if (message.channel.type === 'dm') return;
 
-				message.reply('Je vous ai envoyé un message privé avec la liste de mes commandes!');
+				return 'Je vous ai envoyé un message privé avec la liste de mes commandes !';
 			}).catch(error => {
 				console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-				message.reply('Il semble que je ne peux vous envoyer de messages privés! Avez-vous vos messages privés d\'activé?');
+				return 'Il semble que je ne peux vous envoyer de messages privés! Avez-vous vos messages privés d\'activé ?';
 			});
 		}
 
@@ -29,7 +29,7 @@ module.exports = {
 		const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
 		if (!command) {
-			return message.reply('Il ne s\'agit pas d\'une commande valide!');
+			return 'Il ne s\'agit pas d\'une commande valide!';
 		}
 
 		data.push(`**Name:** ${command.name}`);

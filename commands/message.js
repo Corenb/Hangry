@@ -1,4 +1,4 @@
-module.exports = {
+module.export = {
 	name: 'message',
 	aliases: ['m', 'msg'],
 	description: 'Envoi un message dans un canal.',
@@ -8,20 +8,20 @@ module.exports = {
 	usage: '<canal> <message>',
 	execute(message, args) {
 		if (args.length < 2) {
-			return message.reply('Veuillez mentionner le canal sur lequel envoyer le message et indiquer un message.');
+			return 'Veuillez mentionner le canal sur lequel envoyer le message et indiquer un message.';
 		}
 
-		const taggedChannel = message.mentions.channel.first();
+		const taggedChannel = bot.getChannelFromMention(args[0]);
 		if (!taggedChannel) {
-			return message.reply('Veuillez mentionner le canal à l\'aide de la fonction mention.');
+			return 'Veuillez mentionner le canal à l\'aide de la fonction mention.';
 		}
 
 		const msg = args.slice(1).join(' ');
 		return taggedChannel.send(msg, { split: true }).then(() => {
-			message.reply(`J'ai envoyé le message sur le canal **${taggedChannel.tag}**!`);
+			return `J'ai envoyé le message sur le canal **${taggedChannel.tag}**!`;
 		}).catch(error => {
 			console.error(`Could not send message on ${taggedChannel.tag}.\n`, error);
-			message.reply(`Il semble que je ne peux envoyer de message sur **${taggedChannel.tag}** !`);
+			return `Il semble que je ne peux envoyer de message sur **${taggedChannel.tag}** !`;
 		});
 	},
-};
+}

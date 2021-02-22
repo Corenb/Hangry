@@ -7,32 +7,15 @@ module.exports = {
 	permissions: 'MANAGE_MESSAGES',
 	usage: '<amount>',
 	execute(message, args) {
-		const amount = args.join(' ');
+		const amount = parseInt(args[0]) + 1;
 
-        if (message.deletable) {
-            message.delete();
-        }
+		if (isNaN(amount) || amount <= 1 || amount > 100) {
+			return 'veuillez saisir un nombre en 0 et 100.';
+		}
 
-        if (!message.member.hasPermission("MANAGE_MESSAGES")) {
-            return message.reply("Vous n'avez pas l'autorisation de faire ça...").then(m => m.delete(5000));
-        }
-
-        if (isNaN(amount) || parseInt(amount) <= 0) {
-            return message.reply("Met un nombre > 0 et pas de lettres").then(m => m.delete(5000));
-        }
-
-        if (!message.guild.me.hasPermission("MANAGE_MESSAGES")) {
-            return message.reply("Il me manque des permissions !").then(m => m.delete(5000));
-        }
-
-        let deleteAmount = parseInt(amount) + 1;
-
-        if (deleteAmount > 100) {
-            deleteAmount = 100;
-        }
-
-        message.channel.bulkDelete(deleteAmount, true)
-            .then(deleted => message.channel.send(` \`${deleted.size}\` messages ont été supprimés.`))
-            .catch(err => message.reply(`Oups... ${err}`));
+		message.channel.bulkDelete(amount, true).catch(err => {
+			console.error(err);
+			return 'une erreur est survenue lors de la suppression des messages dans ce canal !';
+		});
 	},
 };
